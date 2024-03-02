@@ -1,1 +1,1 @@
-# check-the-firewall-configuration- Python script that can be used to check the firewall configuration on a Palo Alto Networks firewall using the PanOS Python API. This script will check for unused service objects and address objects in the firewall configuration:
+# check-the-firewall-configuration- 
