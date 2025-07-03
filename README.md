@@ -1,3 +1,4 @@
+### CLI tool to clean up unused service & address objects from a Palo Alto firewall via its API. 
 
 <div align="center">
   <img src="https://img.icons8.com/3d-fluency/94/firewall.png" width="100" alt="Firewall Icon"/>
