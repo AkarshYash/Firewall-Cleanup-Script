@@ -1,4 +1,9 @@
 ### CLI tool to clean up unused service & address objects from a Palo Alto firewall via its API. 
+##  Connects to a Palo Alto firewall using its IP + API key  Finds unused objects:
+
+🔹 Service objects (like ports)
+
+🔸 Address objects (like IP addresses)
 
 <div align="center">
   <img src="https://img.icons8.com/3d-fluency/94/firewall.png" width="100" alt="Firewall Icon"/>
