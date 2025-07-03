@@ -1,119 +1,153 @@
-# Firewall Cleanup Script
 
-This script automates the cleanup of unused service and address objects in a Palo Alto Networks firewall. By leveraging the `pan-os-python` library, it identifies and deletes unused objects to help maintain an optimized and efficient configuration.
-
----
-
-## Features
-- **Detect Unused Objects:** Identifies unused service and address objects on the firewall.
-- **Automated Cleanup:** Deletes unused objects to streamline the firewall's configuration.
-- **Efficient API Integration:** Uses the `pan-os-python` library for seamless interaction with the firewall.
+<div align="center">
+  <img src="https://img.icons8.com/3d-fluency/94/firewall.png" width="100" alt="Firewall Icon"/>
+  <h1>🧹 PAN-OS Unused Object Cleanup Tool</h1>
+  <p><strong>Effortlessly detect & delete unused Address and Service objects from your Palo Alto Firewall</strong></p>
+  <img src="https://img.shields.io/badge/Python-3.7%2B-blue?style=flat&logo=python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Palo%20Alto-API%20Automation-red?style=flat&logo=palantir&logoColor=white"/>
+</div>
 
 ---
 
-## Prerequisites
-### 1. Python Installation
-Ensure Python 3.6 or higher is installed on your system.
+### 📦 Project Level: `Intermediate to Advanced`
+### 🛠️ Tech Stack:
+- **Language:** Python 🐍
+- **Libs:** `pan-os-python`, `argparse`, `csv`, `datetime`, `os`, `sys`
+- **Platform:** Palo Alto Networks PAN-OS
 
-### 2. Install Required Library
-The script uses the `pan-os-python` library for interaction with the firewall. Install it using pip:
+---
+
+## ✨ Features
+
+🚀 **Fast & Reliable PAN-OS Cleanup**  
+🔍 Detects unused **Address** and **Service** objects  
+🗑️ Deletes unused objects **only with confirmation**  
+🧾 Generates detailed **log and CSV reports**  
+🧪 Supports **preview-only mode** (no changes, just inspection)  
+🛡️ Uses **API key authentication** for secure access  
+🗃️ Logs everything under timestamped `logs/` folder  
+✅ Exception handling with clear 🔥 error messages
+
+---
+
+## 📸 Demo Output (CLI)
+
+```bash
+🚀 Connecting to firewall at 192.168.1.1
+🔍 Checking unused service objects...
+Found 3 unused service object(s):
+  - svc-udp-1337
+  - svc-tcp-3389
+✅ Deleted service: svc-tcp-3389
+🔍 Checking unused address objects...
+Found 2 unused address object(s):
+  - addr-test-1
+  - addr-test-2
+✅ Deleted address: addr-test-1
+
+📦 Report saved to logs/cleanup_report_2025-07-03_14-32-10.csv
+🧾 Log file saved to logs/cleanup_log_2025-07-03_14-32-10.txt
+````
+
+---
+
+## 🧠 How It Works
+
+1. Connects to the PAN-OS firewall using IP and API key
+2. Pulls all **service and address objects**
+3. Finds which ones are **unused**
+4. If `--preview` is set: it **prints them only**
+5. If `--confirm` is set: it **deletes them** and logs each action
+6. CSV and log files are saved in a `logs/` directory
+
+---
+
+## ⚙️ Usage
+
+### 1️⃣ Get your API key from PAN-OS
+
+```bash
+curl -k -X GET 'https://<FIREWALL-IP>/api/?type=keygen&user=admin&password=yourpass'
+```
+
+### 2️⃣ Run the script
+
+#### 🔍 Preview only (no deletions):
+
+```bash
+python cleanup.py --host 192.168.1.1 --api-key YOUR_API_KEY --preview
+```
+
+#### 🗑️ Actual deletion:
+
+```bash
+python cleanup.py --host 192.168.1.1 --api-key YOUR_API_KEY --confirm
+```
+
+---
+
+## 🔐 Safety
+
+✅ Will **never delete** anything unless `--confirm` flag is added
+⚠️ Running with only `--preview` is 100% safe and recommended before any deletion
+💾 All activity gets logged and saved
+
+---
+
+## 📁 Output Files
+
+| Type       | Location                    | Format                 |
+| ---------- | --------------------------- | ---------------------- |
+| Log File   | `logs/cleanup_log_*.txt`    | Human-readable text    |
+| CSV Report | `logs/cleanup_report_*.csv` | Table of deleted items |
+
+---
+
+## 📦 Install Requirements
+
 ```bash
 pip install pan-os-python
 ```
 
-### 3. API Access
-- Ensure you have API access enabled on your Palo Alto Networks firewall.
-- Replace `your_api_key` in the script with your actual API key.
+---
+
+## 🤖 Inspired For
+
+* Network Engineers automating cleanups
+* CyberSec teams improving hygiene
+* DevOps folks managing infra-as-code
+* PAN-OS admins doing routine audits
 
 ---
 
-## Usage
+## 🧊 3D ASCII FLAVOR
 
-### Script Configuration
-1. Replace `10.0.0.1` with the IP address of your firewall.
-2. Replace `your_api_key` with a valid API key.
-
-### Running the Script
-Run the script with Python:
-```bash
-python cleanup_script.py
 ```
-
-### Script Output
-- Lists all unused service and address objects.
-- Deletes the unused objects and provides feedback on the cleanup process.
-
----
-
-## Code Walkthrough
-
-### Importing the Library
-The `panos.firewall.Firewall` class is used to connect to and manage the firewall.
-
-### Connecting to the Firewall
-```python
-fw = Firewall("10.0.0.1", api_key="your_api_key")
-```
-Connects to the firewall using the specified IP address and API key.
-
-### Checking for Unused Objects
-```python
-unused_services = fw.services.unused()
-unused_addresses = fw.addresses.unused()
-```
-Retrieves unused service and address objects.
-
-### Deleting Unused Objects
-```python
-for unused_service in unused_services:
-    fw.services.delete(unused_service)
-
-for unused_address in unused_addresses:
-    fw.addresses.delete(unused_address)
-```
-Deletes unused service and address objects from the firewall.
-
----
-
-## Example Output
-```plaintext
-Unused service objects found:
-- tcp_8080
-- udp_1234
-
-Unused address objects found:
-- server_old
-- client_temp
-
-Deleting unused service objects...
-tcp_8080 deleted.
-udp_1234 deleted.
-
-Deleting unused address objects...
-server_old deleted.
-client_temp deleted.
+ _______  _______  __    _  _______  _______ 
+|       ||       ||  |  | ||       ||       |
+|    _  ||   _   ||   |_| ||    ___||    ___|
+|   |_| ||  | |  ||       ||   |___ |   |___ 
+|    ___||  |_|  ||  _    ||    ___||    ___|
+|   |    |       || | |   ||   |___ |   |___ 
+|___|    |_______||_|  |__||_______||_______|
 ```
 
 ---
 
-## Benefits
-- Simplifies firewall management by cleaning up unused objects.
-- Reduces clutter in the firewall configuration.
-- Improves firewall performance and maintainability.
+## 🙌 Contribution
+
+Pull requests are welcome! Got a new feature in mind? Let’s collab.
 
 ---
 
-## Known Limitations
-1. **API Key Security:** Ensure your API key is stored securely and not hard-coded in production environments.
-2. **Object Dependencies:** Objects in use by other configurations may cause errors during deletion. Handle dependencies before running the script.
+## 🧠 Author
+
+Made with ❤️ by [Kalki Akarsh](https://github.com/AkarshYash)
+🔗 [TryHackMe](https://tryhackme.com/p/Kalki.Akarsh.18) • 🌐 [Portfolio](https://akarshyash.github.io/Akarsh_Portfolio/) • 🛡️ Cybersecurity Dev
 
 ---
 
-## Author
-This script is a demonstration of Palo Alto Networks firewall automation using the `pan-os-python` library. Contributions and enhancements are welcome.
+## 🪪 License
 
----
-
-## License
-This project is open-source and available under the MIT License. Feel free to use, modify, and distribute it as needed.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
